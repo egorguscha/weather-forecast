@@ -6,6 +6,7 @@ import { PrimaryWeatherParams, WeatherIconWrapper } from '../molecules'
 const WrapperTownHead = styled.section`
   display: grid;
   grid-template-rows: 1fr;
+  margin: 2rem 0;
   justify-content: center;
 `
 export const TownHead = ({ title, weatherParams }) => (
