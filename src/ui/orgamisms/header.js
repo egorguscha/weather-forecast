@@ -1,14 +1,17 @@
 import React from 'react'
-import { HeaderWrapper, Time, NavLink } from '../atoms'
-import { Menu } from '../molecules'
+import styled from 'styled-components'
 
-export const Header = ({ children }) => (
-  <HeaderWrapper>
-    <Time>Time</Time>
-    <Menu>
-      <NavLink href="#">Main</NavLink>
-      <NavLink href="#">Towns</NavLink>
-      <NavLink href="#">About us</NavLink>
-    </Menu>
-  </HeaderWrapper>
+const HeaderWrapper = styled.header`
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  grid-template-rows: minmax(2.5rem, auto);
+  background: #011627;
+  color: #fff;
+  padding: 1.2rem;
+  grid-template-areas: 'time menu';
+  box-sizing: border-box;
+`
+
+export const HeaderBox = ({ children }) => (
+  <HeaderWrapper>{children}</HeaderWrapper>
 )

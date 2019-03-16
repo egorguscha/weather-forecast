@@ -1,0 +1,1 @@
+export { TownDetail } from './pages'

@@ -1,3 +1,3 @@
-export { Header } from './header'
+export { HeaderBox } from './header'
 export { Footer } from './footer'
-export { Main } from './main'
+export { TownHead } from './town-head'

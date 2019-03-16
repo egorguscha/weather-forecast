@@ -1,5 +1,14 @@
 import React from 'react'
-import { SearchWrapper, ButtonPrimary, InputSearch, Label } from '../atoms'
+import styled from 'styled-components'
+import { ButtonPrimary, InputSearch, Label } from '../atoms'
+
+const SearchWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr
+  grid-template-areas:
+    'label .'
+    'input button';
+`
 
 export const Search = () => (
   <SearchWrapper>

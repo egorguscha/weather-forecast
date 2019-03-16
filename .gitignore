@@ -3,3 +3,4 @@
 .vscode
 .cache
 task.md
+yarn-error.log
