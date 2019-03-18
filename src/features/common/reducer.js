@@ -3,7 +3,7 @@ import {
   GET_TOWN_WEATHER_FORECAST_ERROR
 } from './action-types'
 
-export const commonReducer = (state = [], action) => {
+export const commonReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_TOWN_WEATHER_FORECAST:
       return { ...state, ...action.payload }
@@ -12,7 +12,7 @@ export const commonReducer = (state = [], action) => {
   }
 }
 
-export const errorReducer = (state = [], action) => {
+export const errorReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_TOWN_WEATHER_FORECAST_ERROR:
       return action.error
