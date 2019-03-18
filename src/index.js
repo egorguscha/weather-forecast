@@ -1,14 +1,21 @@
+import '@babel/polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './app'
 import { Provider } from 'react-redux'
-import { store } from './store'
+import { configureStore } from './store'
+import { ConnectedRouter } from 'connected-react-router'
+import { createBrowserHistory } from 'history'
 
+const history = createBrowserHistory()
+const store = configureStore({ history })
 const root = document.getElementById('root')
 const render = () =>
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
     </Provider>,
     root
   )
