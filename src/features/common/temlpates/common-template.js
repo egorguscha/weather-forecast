@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { MainTemplate } from '@ui'
 import { HeaderContent } from '../organisms'
 
-export const CommonTemplate = ({ header, footer, children }) => (
-  <MainTemplate header={header} footer={footer}>
+export const CommonTemplate = ({ header, footer, children, fullHeight }) => (
+  <MainTemplate header={header} footer={footer} fullHeight={fullHeight}>
     {children}
   </MainTemplate>
 )

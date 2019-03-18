@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CommonTemplate } from '../templates'
 import { Grid } from '@ui/grid'
 import { TownHead, WeatherCard, WeatherCardList } from '@ui'
-export const TownDetail = () => (
+import { CommonTemplate } from '../temlpates'
+
+export const TownPage = () => (
   <CommonTemplate>
     <Grid.Wrapper>
       <TownHead />
@@ -15,6 +16,6 @@ export const TownDetail = () => (
   </CommonTemplate>
 )
 
-TownDetail.defaultProps = {}
+TownPage.defaultProps = {}
 
-TownDetail.propTypes = {}
+TownPage.propTypes = {}

@@ -1,3 +1,3 @@
-export { CommonTemplate } from './temlpates'
-export { MainPage } from './pages'
-export { HeaderContent } from './organisms'
+export { MainPage, TownPage } from './pages'
+export { commonRoutes } from './routes'
+export { commonReducer } from './reducer'

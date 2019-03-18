@@ -1,17 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './app'
-import { GlobalStyle } from './global-style'
-import { NormalizeCss } from './normalize-css'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 const root = document.getElementById('root')
 const render = () =>
   ReactDOM.render(
-    <>
-      <NormalizeCss />
-      <GlobalStyle />
+    <Provider store={store}>
       <App />
-    </>,
+    </Provider>,
     root
   )
 

@@ -1,6 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
-
+import { NormalizeCss } from './normalize-css'
 export const GlobalStyle = createGlobalStyle`
+
+${NormalizeCss}
+
 @font-face {
   font-family: 'Roboto';
   src: url('./fonts/Roboto/Roboto-Regular.ttf') fromat('ttf');

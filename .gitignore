@@ -4,3 +4,4 @@
 .cache
 task.md
 yarn-error.log
+/1.js

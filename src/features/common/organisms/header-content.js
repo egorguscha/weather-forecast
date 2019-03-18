@@ -1,14 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Time, Menu, NavLink } from '@ui'
 
 export const HeaderContent = () => (
   <>
     <Time>17:00</Time>
     <Menu>
-      <NavLink>Main</NavLink>
-      <NavLink>Towns</NavLink>
-      <NavLink>About us</NavLink>
+      <NavLink as={Link} to="/">
+        Main
+      </NavLink>
+      <NavLink as={Link} to="/towns">
+        Towns
+      </NavLink>
+      <NavLink as={Link} to="/about-us">
+        About us
+      </NavLink>
     </Menu>
   </>
 )

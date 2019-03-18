@@ -7,8 +7,17 @@
     "dev": "parcel ./src/index.html"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "create-react-class": "^15.6.3",
     "react": "^16.8.4",
+    "react-create-class": "^1.0.0",
     "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^4.4.0",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "ui": "^0.2.4"
   },
   "devDependencies": {

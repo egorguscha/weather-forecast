@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { ButtonPrimary, InputSearch, Label } from '../atoms'
 
-const SearchWrapper = styled.div`
+const SearchWrapper = styled.form`
   display: grid;
   grid-template-columns: 2fr 1fr
   grid-template-areas:
@@ -10,10 +11,10 @@ const SearchWrapper = styled.div`
     'input button';
 `
 
-export const Search = () => (
-  <SearchWrapper>
+export const Search = ({ value, onSubmit, onChange }) => (
+  <SearchWrapper onSubmit={onSubmit}>
     <Label>Town</Label>
-    <InputSearch />
+    <InputSearch value={value} onChange={onChange} />
     <ButtonPrimary
       hover={'#ff9f1c'}
       initial={'#ffc16e'}
@@ -25,3 +26,7 @@ export const Search = () => (
     </ButtonPrimary>
   </SearchWrapper>
 )
+
+Search.propTypes = {
+  value: PropTypes.string
+}
