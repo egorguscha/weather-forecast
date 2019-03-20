@@ -1,34 +1,38 @@
-import {
-  GET_TOWN_WEATHER_FORECAST,
-  GET_TOWN_WEATHER_FORECAST_ERROR
-} from './action-types'
+import { RECEIVE_WEATHER, REQUEST_WEATHER } from './action-types'
 
-export const commonReducer = (state = {}, action) => {
+export const weatherReducer = (state = {}, action) => {
   switch (action.type) {
-    case GET_TOWN_WEATHER_FORECAST:
+    case RECEIVE_WEATHER:
       return { ...state, ...action.payload }
+    case REQUEST_WEATHER:
+      return { ...state, isLoaded: action.isLoaded }
     default:
       return state
   }
 }
 
-export const errorReducer = (state = {}, action) => {
-  switch (action.type) {
-    case GET_TOWN_WEATHER_FORECAST_ERROR:
-      return action.error
-    default:
-      return null
-  }
-}
-
-export const getTownWeather = ({ town }) => {
-  if (town.city) {
+export const getWeather = ({ weather: { weatherCurrent, isLoaded } }) => {
+  if (isLoaded) {
+    const {
+      name,
+      main: { temp },
+      weather: [{ icon }]
+    } = weatherCurrent
     return {
-      id: town.city.id,
-      town
+      name,
+      temp,
+      icon,
+      isLoaded
     }
   }
   return {
-    town
+    weatherCurrent,
+    isLoaded
+  }
+}
+
+export const getForecast = state => {
+  return {
+    state
   }
 }

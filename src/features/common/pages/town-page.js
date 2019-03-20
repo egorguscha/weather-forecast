@@ -1,38 +1,90 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@ui/grid'
-import { TownHead, WeatherCard, WeatherCardList } from '@ui'
+import { TownHead, WeatherCard, WeatherCardList, WeatherParam } from '@ui'
 import { CommonTemplate } from '../temlpates'
-import { getTownWeather } from '../reducer'
+import { getWeather } from '../reducer'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { withRouter } from 'react-router-dom'
-const TownPageView = props => {
-  console.log(props)
+import createReactClass from 'create-react-class'
+import { fetchForecast } from '../actions.js'
 
-  return (
-    <CommonTemplate>
-      <Grid.Wrapper>
-        <TownHead />
-        <WeatherCardList>
-          <WeatherCard currentDay />
-          <WeatherCard />
-        </WeatherCardList>
-      </Grid.Wrapper>
-    </CommonTemplate>
-  )
-}
+const TownPageView = createReactClass({
+  getInitialState() {
+    return {}
+  },
+  componentDidMount() {
+    const {
+      weather: { weatherCurrent },
+      match: {
+        params: { id }
+      },
+      fetchForecast
+    } = this.props
+
+    if (!weatherCurrent) {
+      fetchForecast(id, true)
+    }
+  },
+
+  render() {
+    const {
+      weather: { isLoaded, name, temp, icon }
+    } = this.props
+
+    if (!isLoaded) {
+      return (
+        <CommonTemplate>
+          <Grid.Wrapper>
+            <TownHead title="Loading..." />
+          </Grid.Wrapper>
+        </CommonTemplate>
+      )
+    }
+    return (
+      <CommonTemplate>
+        <Grid.Wrapper>
+          <TownHead
+            title={name}
+            temperature={temp}
+            icon={`http://openweathermap.org/img/w/${icon}.png`}
+          />
+          <WeatherCardList>
+            <WeatherCard currentDay>
+              <WeatherParam />
+              <WeatherParam />
+              <WeatherParam />
+            </WeatherCard>
+          </WeatherCardList>
+        </Grid.Wrapper>
+      </CommonTemplate>
+    )
+  }
+})
 
 TownPageView.defaultProps = {}
 
-TownPageView.propTypes = {}
+TownPageView.propTypes = {
+  title: PropTypes.string,
+  temperature: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  icon: PropTypes.string
+}
 
-const mapStateToProps = (state, ownProps) => ({
-  town: getTownWeather(state)
-})
+const mapStateToProps = state => {
+  return {
+    weather: getWeather(state)
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchForecast: (id, byId) => dispatch(fetchForecast(id, byId))
+  }
+}
 const enhance = compose(
-  connect(mapStateToProps),
-  withRouter
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export const TownPage = enhance(TownPageView)

@@ -11,12 +11,10 @@
     "connected-react-router": "^6.3.2",
     "create-react-class": "^15.6.3",
     "history": "^4.9.0",
-    "react": "^16.8.4",
-    "react-create-class": "^1.0.0",
-    "react-dom": "^16.8.4",
-    "react-hot-loader": "^4.8.0",
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0",
     "react-redux": "^6.0.1",
-    "react-router-dom": "^4.4.0",
+    "react-router-dom": "5.0.0",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
@@ -29,6 +27,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "parcel-bundler": "^1.12.2",
     "prop-types": "^15.7.2",
+    "react-hot-loader": "^4.8.0",
     "styled-components": "^4.1.3"
   }
 }

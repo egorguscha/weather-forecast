@@ -18,14 +18,17 @@ const IconWrapper = styled.div`
 `
 const IconText = styled.span``
 
-export const WeatherIconWrapper = ({ children, icon }) => (
-  <IconWrapper devider>
-    {icon && <WeatherIcon src={icon} />}
-    {children && <IconText>{children}</IconText>}
-  </IconWrapper>
-)
+export const WeatherIconWrapper = ({ children, icon }) => {
+  console.log(children)
+  return (
+    <IconWrapper devider>
+      {icon && <WeatherIcon src={icon} />}
+      {children && <IconText>{children} &#176;С</IconText>}
+    </IconWrapper>
+  )
+}
 
 WeatherIconWrapper.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string
 }

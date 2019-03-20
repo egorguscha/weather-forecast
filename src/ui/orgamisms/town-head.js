@@ -6,15 +6,17 @@ import { PrimaryWeatherParams, WeatherIconWrapper } from '../molecules'
 const WrapperTownHead = styled.section`
   display: grid;
   grid-template-rows: 1fr;
+  grid-auto-columns: minmax(10rem, auto);
   margin: 2rem 0;
   justify-content: center;
+  text-align: center;
 `
-export const TownHead = ({ title, weatherParams }) => (
+export const TownHead = ({ title, temperature, icon }) => (
   <WrapperTownHead>
-    <H1>Town name</H1>
+    <H1>{title}</H1>
     <PrimaryWeatherParams>
-      <WeatherIconWrapper>100</WeatherIconWrapper>
-      <WeatherIconWrapper icon={'http://openweathermap.org/img/w/10d.png'} />
+      <WeatherIconWrapper>{temperature}</WeatherIconWrapper>
+      <WeatherIconWrapper icon={icon} />
     </PrimaryWeatherParams>
   </WrapperTownHead>
 )

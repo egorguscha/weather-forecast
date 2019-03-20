@@ -1,3 +1,3 @@
 export { MainPage, TownPage } from './pages'
 export { commonRoutes } from './routes'
-export { commonReducer, errorReducer } from './reducer'
+export { weatherReducer } from './reducer'
