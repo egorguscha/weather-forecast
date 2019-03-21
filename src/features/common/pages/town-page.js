@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Grid } from '@ui/grid'
 import { TownHead, WeatherCard, WeatherCardList, WeatherParam } from '@ui'
 import { CommonTemplate } from '../temlpates'
-import { getWeather } from '../reducer'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import createReactClass from 'create-react-class'
 import { fetchForecast } from '../actions.js'
+import { getWeather, getForecast } from '../reducer'
 
 const TownPageView = createReactClass({
   getInitialState() {
@@ -15,22 +15,20 @@ const TownPageView = createReactClass({
   },
   componentDidMount() {
     const {
-      weather: { weatherCurrent },
+      townWeather,
       match: {
         params: { id }
       },
       fetchForecast
     } = this.props
 
-    if (!weatherCurrent) {
+    if (!townWeather.weather) {
       fetchForecast(id, true)
     }
   },
 
   render() {
-    const {
-      weather: { isLoaded, name, temp, icon }
-    } = this.props
+    const { isLoaded, weather } = this.props.townWeather
 
     if (!isLoaded) {
       return (
@@ -41,6 +39,7 @@ const TownPageView = createReactClass({
         </CommonTemplate>
       )
     }
+    const { name, temp, icon } = weather
     return (
       <CommonTemplate>
         <Grid.Wrapper>
@@ -72,7 +71,8 @@ TownPageView.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    weather: getWeather(state)
+    townWeather: getWeather(state),
+    townForecast: getForecast(state)
   }
 }
 const mapDispatchToProps = dispatch => {
