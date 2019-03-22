@@ -18,10 +18,10 @@ const WeatherParamText = styled.span`
   font-size: 1.2rem;
 `
 
-export const WeatherParam = ({ paramName, value, icon }) => (
+export const WeatherParam = ({ label, value, icon }) => (
   <WeatherParamWrapper>
-    <LabelParam>Preasure</LabelParam>
-    <WeatherParamText>40</WeatherParamText>
+    <LabelParam>{label}</LabelParam>
+    <WeatherParamText>{value}</WeatherParamText>
     <WeatherIconParam
       src="http://openweathermap.org/img/w/10d.png
 
@@ -31,7 +31,7 @@ export const WeatherParam = ({ paramName, value, icon }) => (
 )
 
 WeatherParam.propTypes = {
-  paramName: PropTypes.string,
-  value: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.number,
   icon: PropTypes.string
 }

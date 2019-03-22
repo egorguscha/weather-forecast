@@ -1,13 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@ui/grid'
-import { TownHead, WeatherCard, WeatherCardList, WeatherParam } from '@ui'
+import {
+  TownHead,
+  WeatherCard,
+  WeatherCardHead,
+  WeatherParamList,
+  WeatherParam
+} from '@ui'
 import { CommonTemplate } from '../temlpates'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import createReactClass from 'create-react-class'
 import { fetchForecast } from '../actions.js'
-import { getWeather, getForecast } from '../reducer'
+import { getWeather, getForecast, getDaily } from '../reducer'
 
 const TownPageView = createReactClass({
   getInitialState() {
@@ -15,20 +21,38 @@ const TownPageView = createReactClass({
   },
   componentDidMount() {
     const {
-      townWeather,
+      forecast,
       match: {
         params: { id }
       },
       fetchForecast
     } = this.props
 
-    if (!townWeather.weather) {
+    if (!Object.keys(forecast).length) {
       fetchForecast(id, true)
     }
   },
-
+  handleClick() {
+    console.log(1)
+  },
   render() {
-    const { isLoaded, weather } = this.props.townWeather
+    const {
+      isLoaded,
+      currentlyWeather = {},
+      dailyWeather = []
+    } = this.props.forecast
+
+    // const {
+    //   time,
+    //   weekday,
+    //   month,
+    //   day,
+    //   icon,
+    //   temperatureMax,
+    //   temperatureMin,
+    //   visibility,
+    //   windSpeed
+    // } = item
 
     if (!isLoaded) {
       return (
@@ -39,22 +63,21 @@ const TownPageView = createReactClass({
         </CommonTemplate>
       )
     }
-    const { name, temp, icon } = weather
+
     return (
       <CommonTemplate>
         <Grid.Wrapper>
-          <TownHead
-            title={name}
-            temperature={temp}
-            icon={`http://openweathermap.org/img/w/${icon}.png`}
-          />
-          <WeatherCardList>
-            <WeatherCard currentDay>
-              <WeatherParam />
-              <WeatherParam />
-              <WeatherParam />
+          <TownHead {...currentlyWeather} />
+          {dailyWeather.map(daily => (
+            <WeatherCard key={daily.time}>
+              <WeatherCardHead {...daily} />
+              <WeatherParamList>
+                <WeatherParam label={'Pressure'} value={daily.pressure} />
+                <WeatherParam label={'Visibility'} value={daily.visibility} />
+                <WeatherParam label={'Wind speed'} value={daily.windSpeed} />
+              </WeatherParamList>
             </WeatherCard>
-          </WeatherCardList>
+          ))}
         </Grid.Wrapper>
       </CommonTemplate>
     )
@@ -71,8 +94,9 @@ TownPageView.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    townWeather: getWeather(state),
-    townForecast: getForecast(state)
+    forecast: getWeather(state)
+
+    // townForecast: getForecast(state)
   }
 }
 const mapDispatchToProps = dispatch => {

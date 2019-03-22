@@ -11,12 +11,14 @@ const WrapperTownHead = styled.section`
   justify-content: center;
   text-align: center;
 `
-export const TownHead = ({ title, temperature, icon }) => (
+export const TownHead = ({ timezone, temperature, img }) => (
   <WrapperTownHead>
-    <H1>{title}</H1>
+    <H1>{timezone}</H1>
     <PrimaryWeatherParams>
       <WeatherIconWrapper>{temperature}</WeatherIconWrapper>
-      <WeatherIconWrapper icon={icon} />
+      <WeatherIconWrapper
+        icon={`https://darksky.net/images/weather-icons/${img}.png`}
+      />
     </PrimaryWeatherParams>
   </WrapperTownHead>
 )

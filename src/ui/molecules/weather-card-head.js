@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { CardHeadTitle, H2, H3 } from '../atoms'
 
 const WeatherCardHeadWrapper = styled.div`
@@ -11,15 +12,25 @@ const WeatherCardHeadWrapper = styled.div`
 `
 
 export const WeatherCardHead = ({
-  dayName,
+  weekday,
   month,
-  dayNumber,
-  temperature,
-  currentDay
+  day,
+  temperatureMax,
+  temperatureMin,
+  currentDay,
+  onClick
 }) => (
-  <WeatherCardHeadWrapper>
-    <CardHeadTitle currentDay={currentDay}>Day name</CardHeadTitle>
-    <H3 fontWeight={300}>m / dn</H3>
-    <H2 fontWeight={300}>20 C</H2>
+  <WeatherCardHeadWrapper onClick={onClick}>
+    <CardHeadTitle currentDay={currentDay}>{weekday}</CardHeadTitle>
+    <H3 fontWeight={300}>
+      {month} / {day}
+    </H3>
+    <H2 fontWeight={300}>
+      {temperatureMin}/{temperatureMax} &#8451;
+    </H2>
   </WeatherCardHeadWrapper>
 )
+
+WeatherCardHead.propTypes = {
+  onClick: PropTypes.func
+}
