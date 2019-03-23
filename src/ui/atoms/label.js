@@ -7,4 +7,5 @@ export const Label = styled.label`
 export const LabelParam = styled.label`
   grid-area: param-label;
   color: #a2a2a2;
+  margin: 0 0 0.3rem 0;
 `

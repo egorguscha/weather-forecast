@@ -27,7 +27,7 @@ export const receiveCurrentWeather = (
   { timezone, currently, ...rest }
 ) => {
   const { icon, temperature } = currently
-  console.log(rest)
+
   return {
     type: RECEIVE_CURRENT_WEATHER,
     isLoaded,
@@ -80,41 +80,44 @@ export const receiveDailyWeather = (isLoaded, { daily }) => {
   }
 }
 
-export const receiveForecast = (isLoaded, weatherForecast) => {
-  const days = new Map()
-  console.log(weatherForecast)
-  weatherForecast.list
+export const receiveForecast = (isLoaded, { hourly }) => {
+  const hourlyForecast = new Map()
+
+  hourly.data
     .map(item => {
-      const date = new Date(item.dt_txt)
+      const { time, icon, temperature } = item
+      const convertedDate = moment.unix(time)
+      const date = new Date(convertedDate)
       const weekday = date.toLocaleDateString('en', { weekday: 'long' })
       const numberday = date.toLocaleDateString('en', { day: 'numeric' })
       const month = date.toLocaleDateString('en', { month: 'numeric' })
+      const timeHourly = date.toLocaleTimeString('en', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
 
       return {
-        id: item.dt_txt,
+        id: time,
         numberday,
         weekday,
         month,
-        temp: item.main.temp,
-        pressure: item.main.pressure,
-        humidity: item.main.humidity,
-        icon: item.weather[0].icon
+        temperature,
+        icon,
+        timeHourly
       }
     })
     .forEach(({ weekday, ...restDays }) => {
-      if (days.has(weekday)) {
-        days.get(weekday).push(restDays)
+      if (hourlyForecast.has(weekday)) {
+        hourlyForecast.get(weekday).push(restDays)
       } else {
-        days.set(weekday, [restDays])
+        hourlyForecast.set(weekday, [restDays])
       }
     })
 
   return {
     type: RECEIVE_FORECAST,
-    payload: {
-      isLoaded,
-      days
-    }
+    isLoaded,
+    hourlyForecast
   }
 }
 
@@ -134,12 +137,11 @@ export const fetchForecast = (coords, allowRedirect) => async (
       `${proxy}https://api.darksky.net/forecast/${WEATHER_API_KEY}/${coords}?units=si`
     )
 
-    if (allowRedirect) {
-      dispatch(receiveCurrentWeather(true, otherProps))
-      dispatch(receiveDailyWeather(true, otherProps))
-    } else {
-      dispatch(receiveCurrentWeather(true, otherProps))
-      dispatch(receiveDailyWeather(true, otherProps))
+    dispatch(receiveCurrentWeather(true, otherProps))
+    dispatch(receiveDailyWeather(true, otherProps))
+    dispatch(receiveForecast(true, otherProps))
+
+    if (!allowRedirect) {
       dispatch(push(`/town-page/${latitude},${longitude}`))
     }
   } catch (error) {

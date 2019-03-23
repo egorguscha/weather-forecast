@@ -22,7 +22,11 @@ export const weatherReducer = (state = {}, action) => {
         isLoaded: action.isLoaded
       }
     case RECEIVE_FORECAST:
-      return { ...state, ...action.payload }
+      return {
+        ...state,
+        hourly: action.hourlyForecast,
+        isLoaded: action.isLoaded
+      }
     default:
       return state
   }

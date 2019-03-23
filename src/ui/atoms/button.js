@@ -1,3 +1,4 @@
+// import React from 'react'
 import styled from 'styled-components'
 
 export const Button = styled.button`
@@ -16,7 +17,7 @@ export const ButtonPrimary = styled(Button)`
   color: ${({ color }) => color || '#000'};
   background: ${({ initial }) => initial || '#000'};
   ${({ borderRadius }) =>
-    borderRadius.length > 1
+    borderRadius && borderRadius.length > 1
       ? `border-radius:
           ${borderRadius[0]}px
           ${borderRadius[1]}px
@@ -32,4 +33,10 @@ export const ButtonPrimary = styled(Button)`
   &:active {
     background: ${({ active }) => active || '#000'};
   }
+`
+
+export const ButtonHourly = styled(ButtonPrimary)`
+  grid-area: hourly-button;
+  height: 2.5rem;
+  width: 100%;
 `

@@ -22,16 +22,11 @@ export const WeatherParam = ({ label, value, icon }) => (
   <WeatherParamWrapper>
     <LabelParam>{label}</LabelParam>
     <WeatherParamText>{value}</WeatherParamText>
-    <WeatherIconParam
-      src="http://openweathermap.org/img/w/10d.png
-
-"
-    />
   </WeatherParamWrapper>
 )
 
 WeatherParam.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.number,
+  value: PropTypes.string,
   icon: PropTypes.string
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { H1 } from '../atoms'
 import { PrimaryWeatherParams, WeatherIconWrapper } from '../molecules'
 
@@ -17,8 +18,14 @@ export const TownHead = ({ timezone, temperature, img }) => (
     <PrimaryWeatherParams>
       <WeatherIconWrapper>{temperature}</WeatherIconWrapper>
       <WeatherIconWrapper
-        icon={`https://darksky.net/images/weather-icons/${img}.png`}
+        icon={img && `https://darksky.net/images/weather-icons/${img}.png`}
       />
     </PrimaryWeatherParams>
   </WrapperTownHead>
 )
+
+TownHead.propTypes = {
+  timezone: PropTypes.string,
+  temperature: PropTypes.number,
+  img: PropTypes.string
+}

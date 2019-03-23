@@ -8,3 +8,7 @@ export const WeatherIcon = styled(Icon)`
 export const WeatherIconParam = styled(Icon)`
   grid-area: param-icon;
 `
+
+export const WeatherIconDaily = styled(Icon)`
+  width: 2.5rem;
+`

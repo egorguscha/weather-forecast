@@ -8,6 +8,7 @@ const WeatherCardWrapper = styled.div`
   display: grid;
   width: 70vw;
   margin: 0 auto 2rem auto;
+  background: #fff;
 `
 
 export const WeatherCard = ({ children }) => (
@@ -16,4 +17,6 @@ export const WeatherCard = ({ children }) => (
 
 WeatherCard.defaultProps = {}
 
-WeatherCard.propTypes = {}
+WeatherCard.propTypes = {
+  children: PropTypes.node.isRequired
+}
