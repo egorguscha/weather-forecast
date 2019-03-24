@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@ui": "./src/ui",
+          "@features": "./src/features",
+          "@lib": "./src/lib"
+        }
+      }
+    ]
+  ]
+}

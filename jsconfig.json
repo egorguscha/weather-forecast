@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "checkJs": false,
+    "lib": ["esnext"],
+    "paths": {
+      "@features/*": ["./features/*"],
+      "@ui/*": ["./ui/*"],
+      "@lib/*": ["./lib/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
