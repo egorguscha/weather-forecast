@@ -8,13 +8,8 @@ import { CommonTemplate } from '../temlpates'
 import { fetchForecast } from '../actions.js'
 import { getWeather, getForecast } from '../reducer'
 import { Grid } from '@ui/grid'
-import {
-  TownHead,
-  WeatherCard,
-  WeatherCardHead,
-  WeatherParamList,
-  WeatherParam
-} from '@ui'
+import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
+import { WeatherCardHead, WeatherParam } from '@ui/molecules'
 
 const TownPageView = createReactClass({
   getInitialState() {
@@ -98,16 +93,13 @@ TownPageView.defaultProps = {}
 
 TownPageView.propTypes = {}
 
-const mapStateToProps = state => {
-  return {
-    forecast: getWeather(state)
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchForecast: (id, byId) => dispatch(fetchForecast(id, byId))
-  }
-}
+const mapStateToProps = state => ({
+  forecast: getWeather(state)
+})
+const mapDispatchToProps = dispatch => ({
+  fetchForecast: (id, byId) => dispatch(fetchForecast(id, byId))
+})
+
 const enhance = compose(
   connect(
     mapStateToProps,

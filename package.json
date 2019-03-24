@@ -16,6 +16,7 @@
     "react-dom": "^15.0.0 || ^16.0.0",
     "react-redux": "^6.0.1",
     "react-router-dom": "5.0.0",
+    "react-transition-group": "^2.7.0",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",

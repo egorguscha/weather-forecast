@@ -21,7 +21,9 @@ export const WeatherCardHead = ({
   onClick
 }) => (
   <WeatherCardHeadWrapper onClick={onClick}>
-    <CardHeadTitle currentDay={currentDay}>{weekday}</CardHeadTitle>
+    <CardHeadTitle currentDay={currentDay}>
+      {currentDay ? 'Today' : weekday}
+    </CardHeadTitle>
     <H3 fontWeight={300}>
       {month} / {day}
     </H3>

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Search } from '@ui'
+import { Container } from '@ui/atoms'
 import { CommonTemplate } from '../temlpates'
 import { SearchableBox } from '../organisms'
 

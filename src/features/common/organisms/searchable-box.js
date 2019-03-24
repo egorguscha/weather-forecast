@@ -2,7 +2,7 @@ import React from 'react'
 import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Search } from '@ui'
+import { Search } from '@ui/molecules'
 import { fetchGeocode } from '../actions.js'
 import { compose } from 'recompose'
 

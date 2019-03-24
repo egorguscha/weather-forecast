@@ -106,11 +106,13 @@ export const receiveForecast = (isLoaded, { hourly }) => {
         timeHourly
       }
     })
-    .forEach(({ weekday, ...restDays }) => {
-      if (hourlyForecast.has(weekday)) {
-        hourlyForecast.get(weekday).push(restDays)
-      } else {
-        hourlyForecast.set(weekday, [restDays])
+    .forEach(({ weekday, ...restDays }, i) => {
+      if (i % 3 === 0) {
+        if (hourlyForecast.has(weekday)) {
+          hourlyForecast.get(weekday).push(restDays)
+        } else {
+          hourlyForecast.set(weekday, [restDays])
+        }
       }
     })
 
@@ -134,7 +136,7 @@ export const fetchForecast = (coords, allowRedirect) => async (
     dispatch(requestWeather(false))
 
     const { latitude, longitude, ...otherProps } = await request(
-      `${proxy}https://api.darksky.net/forecast/${WEATHER_API_KEY}/${coords}?units=si`
+      `${proxy}https://api.darksky.net/forecast/${WEATHER_API_KEY}/${coords}?units=si&extend=hourly`
     )
 
     dispatch(receiveCurrentWeather(true, otherProps))

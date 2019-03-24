@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MainTemplate } from '@ui'
+import { MainTemplate } from '@ui/templates'
 import { HeaderContent } from '../organisms'
 
 export const CommonTemplate = ({ header, footer, children, fullHeight }) => (
