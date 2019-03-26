@@ -53,45 +53,39 @@ const TownPageView = createReactClass({
 
     return (
       <CommonTemplate>
-        <Grid.Wrapper>
-          <TownHead {...currentlyWeather} />
-          {dailyWeather.map(daily => (
-            <WeatherCard key={daily.time}>
-              <WeatherCardHead
-                {...daily}
-                currentDay={day.toString() === daily.day}
+        <TownHead {...currentlyWeather} />
+        {dailyWeather.map(daily => (
+          <WeatherCard key={daily.time}>
+            <WeatherCardHead
+              {...daily}
+              currentDay={day.toString() === daily.day}
+            />
+            <WeatherParamList>
+              <WeatherParam
+                label={'Pressure'}
+                value={`${daily.pressure} hPa`}
               />
-              <WeatherParamList>
-                <WeatherParam
-                  label={'Pressure'}
-                  value={`${daily.pressure} hPa`}
-                />
-                <WeatherParam
-                  label={'Visibility'}
-                  value={`${daily.visibility} km`}
-                />
-                <WeatherParam
-                  label={'Wind speed'}
-                  value={`${daily.windSpeed} m/s`}
-                />
-              </WeatherParamList>
+              <WeatherParam
+                label={'Visibility'}
+                value={`${daily.visibility} km`}
+              />
+              <WeatherParam
+                label={'Wind speed'}
+                value={`${daily.windSpeed} m/s`}
+              />
+            </WeatherParamList>
 
-              <HourlyForecast
-                hourly={
-                  hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
-                }
-              />
-            </WeatherCard>
-          ))}
-        </Grid.Wrapper>
+            <HourlyForecast
+              hourly={
+                hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
+              }
+            />
+          </WeatherCard>
+        ))}
       </CommonTemplate>
     )
   }
 })
-
-TownPageView.defaultProps = {}
-
-TownPageView.propTypes = {}
 
 const mapStateToProps = state => ({
   forecast: getWeather(state)

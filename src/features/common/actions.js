@@ -1,20 +1,127 @@
 import { request } from './request'
 import { push } from 'connected-react-router'
 import moment from 'moment'
-
 import {
   RECEIVE_CURRENT_WEATHER,
   REQUEST_WEATHER,
   RECEIVE_FORECAST,
   FETCH_WEATHER_FAILURE,
-  RECEIVE_DAILY_WEATHER
+  RECEIVE_DAILY_WEATHER,
+  FILTER_RANK_HIGH,
+  FILTER_HUMIDITY_HIGH,
+  FILTER_TEMPERATURE_HIGH,
+  FILTER_NAME_HIGH,
+  FILTER_VISIBILITY_HIGH,
+  FILTER_WIND_HIGH,
+  FILTER_BY_DEFINITION,
+  RECEIVE_CITIES,
+  REQUEST_CITIES
 } from './action-types'
 
+const ACCUWEATHER_API =
+  'http://dataservice.accuweather.com/currentconditions/v1/topcities/50?apikey=naPFdtrvkmxrow59RA21sJmnezgsvMDP'
 const GEOCODE_URL = 'https://api.opencagedata.com/geocode/v1/json'
 const GEOCODE_API_KEY = 'a93d9ec6f5ad4878a4f9a27ce4d25555'
-const GEOCODE_REQUEST = `${GEOCODE_URL}?key=${GEOCODE_API_KEY}&q=${name}&no_annotations=1&limit=1`
 const WEATHER_API_KEY = 'def2d9fbc43df19e45574cf1265307db'
 const proxy = 'http://cors-anywhere.herokuapp.com/'
+
+//filter
+
+export const filters = {
+  FILTER_RANK_HIGH,
+  FILTER_HUMIDITY_HIGH,
+  FILTER_TEMPERATURE_HIGH,
+  FILTER_NAME_HIGH,
+  FILTER_VISIBILITY_HIGH,
+  FILTER_WIND_HIGH
+}
+
+export const receiveCities = (cities, isLoaded) => {
+  let citiesList = cities.map((item, i) => {
+    const {
+      Key,
+      EnglishName,
+      Temperature: {
+        Metric: { Value }
+      }
+    } = item
+    return {
+      rank: i + 1,
+      id: Key,
+      name: EnglishName,
+      temperature: Value
+    }
+  })
+
+  return {
+    type: RECEIVE_CITIES,
+    cities: citiesList,
+    isLoaded
+  }
+}
+
+export const requestCities = isLoaded => ({
+  type: REQUEST_CITIES,
+  isLoaded
+})
+
+export const fetchCities = () => async (dispatch, getState) => {
+  try {
+    dispatch(requestCities(false))
+    const cities = await request(ACCUWEATHER_API)
+    dispatch(receiveCities(cities, true))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const sortMachine = (sortType, getState) => {
+  const {
+    filter: { cities }
+  } = getState()
+
+  switch (sortType) {
+    case FILTER_HUMIDITY_HIGH:
+      cities.sort((a, b) => b.humidity - a.humidity)
+      return cities
+    case FILTER_TEMPERATURE_HIGH:
+      cities.sort((a, b) => b.temperature - a.temperature)
+      return cities
+    case FILTER_VISIBILITY_HIGH:
+      cities.sort((a, b) => b.visibility - a.visibility)
+      return cities
+    case FILTER_WIND_HIGH:
+      cities.sort((a, b) => b.wind - a.wind)
+      return cities
+    case FILTER_RANK_HIGH:
+      cities.sort((a, b) => b.rank - a.rank)
+      return cities
+    case FILTER_NAME_HIGH:
+      cities.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1
+        }
+        if (a.name < b.name) {
+          return -1
+        }
+        return 0
+      })
+      return cities
+    default:
+      return cities
+  }
+}
+
+export const filterByDefinition = filterType => (dispatch, getState) => {
+  const sorted = sortMachine(filterType, getState)
+  dispatch({
+    type: FILTER_BY_DEFINITION,
+    filterType,
+    sorted
+  })
+}
+
+// town detail && main
 
 export const fetchWeatheFailure = (name, message) => ({
   type: FETCH_WEATHER_FAILURE,
@@ -22,10 +129,7 @@ export const fetchWeatheFailure = (name, message) => ({
   message
 })
 
-export const receiveCurrentWeather = (
-  isLoaded,
-  { timezone, currently, ...rest }
-) => {
+export const receiveCurrentWeather = (isLoaded, { timezone, currently }) => {
   const { icon, temperature } = currently
 
   return {
