@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FilterButton } from '@ui/molecules'
 import { FilterRadioButton, FilterRadioLabel } from '@ui/atoms'
 import { filterByDefinition } from '../actions'
+
 const FilterHandlerView = ({ text, onChange, active, filterName }) => {
   return (
     <FilterButton>

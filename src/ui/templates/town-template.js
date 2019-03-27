@@ -12,3 +12,9 @@ export const TownTemplate = ({ header, footer, children }) => {
     </Grid.Wrapper>
   )
 }
+
+TownTemplate.propTypes = {
+  header: PropTypes.node.isRequired,
+  footer: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
+}

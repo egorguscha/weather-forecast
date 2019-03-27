@@ -82,11 +82,8 @@ export const computePages = pageNumber => (dispatch, getState) => {
 
 export const filters = {
   FILTER_RANK_HIGH,
-  FILTER_HUMIDITY_HIGH,
   FILTER_TEMPERATURE_HIGH,
-  FILTER_NAME_HIGH,
-  FILTER_VISIBILITY_HIGH,
-  FILTER_WIND_HIGH
+  FILTER_NAME_HIGH
 }
 
 export const receiveCities = (cities, isLoaded) => {

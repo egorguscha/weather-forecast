@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const WrapperWeatherParams = styled.section`
@@ -13,3 +14,7 @@ const WrapperWeatherParams = styled.section`
 export const PrimaryWeatherParams = ({ children }) => (
   <WrapperWeatherParams>{children}</WrapperWeatherParams>
 )
+
+PrimaryWeatherParams.propTypes = {
+  children: PropTypes.node.isRequired
+}

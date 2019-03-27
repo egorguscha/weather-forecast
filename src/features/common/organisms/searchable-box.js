@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Search } from '@ui/molecules'
 import { fetchGeocode } from '../actions.js'
-import { compose } from 'recompose'
 
 const SearchableBoxView = createReactClass({
   getInitialState() {
@@ -38,8 +37,8 @@ const SearchableBoxView = createReactClass({
 })
 
 SearchableBoxView.defaultProps = {}
-SearchableBoxView.propTypes = {}
+SearchableBoxView.propTypes = {
+  dispatch: PropTypes.func.isRequired
+}
 
-const enhance = compose(connect())
-
-export const SearchableBox = enhance(SearchableBoxView)
+export const SearchableBox = connect()(SearchableBoxView)

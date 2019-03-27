@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const MenuWrapper = styled.div`
@@ -11,3 +12,7 @@ const MenuWrapper = styled.div`
 `
 
 export const Menu = ({ children }) => <MenuWrapper>{children}</MenuWrapper>
+
+Menu.propTypes = {
+  children: PropTypes.node.isRequired
+}

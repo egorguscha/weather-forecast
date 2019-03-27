@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const HeaderWrapper = styled.header`
@@ -15,3 +16,7 @@ const HeaderWrapper = styled.header`
 export const HeaderBox = ({ children }) => (
   <HeaderWrapper>{children}</HeaderWrapper>
 )
+
+HeaderBox.propTypes = {
+  children: PropTypes.node.isRequired
+}
