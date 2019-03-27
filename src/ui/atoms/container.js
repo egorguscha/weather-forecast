@@ -6,4 +6,7 @@ export const Container = styled.div`
 `
 export const CommonContainer = styled(Container)`
   padding: 7rem 0;
+  width: 90vw;
+  justify-content: stretch;
+  margin: 0 auto;
 `

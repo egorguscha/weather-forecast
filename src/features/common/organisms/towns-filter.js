@@ -36,18 +36,6 @@ const TownsFilterView = () => (
     <TableHeadCell>
       <FilterHandler text=" Temperature" filterName={FILTER_TEMPERATURE_HIGH} />
     </TableHeadCell>
-    <TableHeadCell>
-      <FilterHandler text=" Pressure" filterName={FILTER_PRESSURE_HIGH} />
-    </TableHeadCell>
-    <TableHeadCell>
-      <FilterHandler text=" Visibility" filterName={FILTER_VISIBILITY_HIGH} />
-    </TableHeadCell>
-    <TableHeadCell>
-      <FilterHandler text="Wind" filterName={FILTER_WIND_HIGH} />
-    </TableHeadCell>
-    <TableHeadCell>
-      <FilterHandler text=" Humidity" filterName={FILTER_HUMIDITY_HIGH} />
-    </TableHeadCell>
   </>
 )
 

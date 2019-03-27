@@ -22,7 +22,10 @@ const FilterHandlerView = ({ text, onChange, active, filterName }) => {
 
 FilterHandlerView.defaultProps = {}
 FilterHandlerView.propTypes = {
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  filterName: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -30,6 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     active: state.filter.filterType === ownProps.filterName
   }
 }
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChange: () => dispatch(filterByDefinition(ownProps.filterName))

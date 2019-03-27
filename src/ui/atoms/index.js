@@ -18,3 +18,4 @@ export {
 } from './table'
 
 export { FilterRadioButton } from './radio-button'
+export { PagButton, PaginationWrapper } from './pagination'

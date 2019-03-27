@@ -15,15 +15,68 @@ import {
   FILTER_WIND_HIGH,
   FILTER_BY_DEFINITION,
   RECEIVE_CITIES,
-  REQUEST_CITIES
+  REQUEST_CITIES,
+  GET_PAGES
 } from './action-types'
 
 const ACCUWEATHER_API =
-  'http://dataservice.accuweather.com/currentconditions/v1/topcities/50?apikey=naPFdtrvkmxrow59RA21sJmnezgsvMDP'
+  'http://dataservice.accuweather.com/currentconditions/v1/topcities/150?apikey=naPFdtrvkmxrow59RA21sJmnezgsvMDP'
 const GEOCODE_URL = 'https://api.opencagedata.com/geocode/v1/json'
 const GEOCODE_API_KEY = 'a93d9ec6f5ad4878a4f9a27ce4d25555'
 const WEATHER_API_KEY = 'def2d9fbc43df19e45574cf1265307db'
 const proxy = 'http://cors-anywhere.herokuapp.com/'
+
+// pagination
+
+const getPages = computedPages => {
+  return {
+    type: GET_PAGES,
+    payload: { ...computedPages }
+  }
+}
+export const computePages = pageNumber => (dispatch, getState) => {
+  const {
+    filter: { cities },
+    pagination: { currentPage, pageSize }
+  } = getState()
+  const page = pageNumber || currentPage
+  const totalPages = Math.ceil(cities.length / pageSize)
+  const startIndexItem = (page - 1) * pageSize
+  const endIndexItem = startIndexItem + pageSize
+  const pageItemsLimit = cities.slice(startIndexItem, endIndexItem)
+  let startPage
+  let endPage
+
+  if (totalPages <= 7) {
+    startPage = 1
+    endPage = totalPages
+  } else {
+    if (page <= 5) {
+      startPage = 1
+      endPage = 7
+    } else if (page + 2 >= totalPages) {
+      startPage = totalPages - 6
+      endPage = totalPages
+    } else {
+      startPage = page - 3
+      endPage = page + 3
+    }
+  }
+
+  const pages = [...Array(endPage + 1 - startPage).keys()].map(
+    item => startPage + item
+  )
+
+  dispatch(
+    getPages({
+      pages,
+      pageItemsLimit,
+      currentPage: page,
+      pageSize,
+      totalPages
+    })
+  )
+}
 
 //filter
 
@@ -68,8 +121,11 @@ export const requestCities = isLoaded => ({
 export const fetchCities = () => async (dispatch, getState) => {
   try {
     dispatch(requestCities(false))
+
     const cities = await request(ACCUWEATHER_API)
+
     dispatch(receiveCities(cities, true))
+    dispatch(computePages())
   } catch (error) {
     console.log(error)
   }
@@ -81,17 +137,8 @@ const sortMachine = (sortType, getState) => {
   } = getState()
 
   switch (sortType) {
-    case FILTER_HUMIDITY_HIGH:
-      cities.sort((a, b) => b.humidity - a.humidity)
-      return cities
     case FILTER_TEMPERATURE_HIGH:
       cities.sort((a, b) => b.temperature - a.temperature)
-      return cities
-    case FILTER_VISIBILITY_HIGH:
-      cities.sort((a, b) => b.visibility - a.visibility)
-      return cities
-    case FILTER_WIND_HIGH:
-      cities.sort((a, b) => b.wind - a.wind)
       return cities
     case FILTER_RANK_HIGH:
       cities.sort((a, b) => b.rank - a.rank)
@@ -113,12 +160,18 @@ const sortMachine = (sortType, getState) => {
 }
 
 export const filterByDefinition = filterType => (dispatch, getState) => {
+  const {
+    pagination: { currentPage }
+  } = getState()
+
   const sorted = sortMachine(filterType, getState)
+
   dispatch({
     type: FILTER_BY_DEFINITION,
     filterType,
     sorted
   })
+  dispatch(computePages(currentPage))
 }
 
 // town detail && main

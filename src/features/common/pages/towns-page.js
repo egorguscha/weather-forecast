@@ -13,6 +13,7 @@ import {
 } from '@ui/atoms'
 import { fetchCities } from '../actions'
 import createReactClass from 'create-react-class'
+import { Pagination } from '../molecules'
 
 const TownsPageView = createReactClass({
   getInitialState() {
@@ -23,7 +24,7 @@ const TownsPageView = createReactClass({
   },
 
   render() {
-    const { cities } = this.props
+    const { pageItemsLimit = [], ...restPagination } = this.props.pagination
 
     return (
       <CommonTemplate>
@@ -35,19 +36,16 @@ const TownsPageView = createReactClass({
               </TableRow>
             </TableHead>
             <TableBody>
-              {cities.map(item => (
+              {pageItemsLimit.map(item => (
                 <TableRow key={item.id}>
                   <TableBodyCell>{item.rank}</TableBodyCell>
                   <TableBodyCell>{item.name}</TableBodyCell>
                   <TableBodyCell>{item.temperature} &#176;С</TableBodyCell>
-                  <TableBodyCell>222 Pa</TableBodyCell>
-                  <TableBodyCell>40 km</TableBodyCell>
-                  <TableBodyCell>5 m/s</TableBodyCell>
-                  <TableBodyCell>10 %</TableBodyCell>
                 </TableRow>
               ))}
             </TableBody>
           </CustomTable>
+          <Pagination {...restPagination} />
         </CommonContainer>
       </CommonTemplate>
     )
@@ -58,11 +56,8 @@ TownsPageView.defaultProps = {}
 
 TownsPageView.propTypes = {}
 
-const mapStateToProps = (state, ownProps) => {
-  console.log(state.filter.cities)
-  return {
-    cities: state.filter.cities
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  pagination: state.pagination
+})
 
 export const TownsPage = connect(mapStateToProps)(TownsPageView)
