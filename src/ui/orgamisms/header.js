@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const HeaderWrapper = styled.header`
@@ -10,8 +11,13 @@ const HeaderWrapper = styled.header`
   padding: 1.2rem;
   grid-template-areas: 'time menu';
   box-sizing: border-box;
+  z-index: 999;
 `
 
 export const HeaderBox = ({ children }) => (
   <HeaderWrapper>{children}</HeaderWrapper>
 )
+
+HeaderBox.propTypes = {
+  children: PropTypes.node.isRequired
+}

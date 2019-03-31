@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Time, NavLink } from '@ui/atoms'
+import { NavLink } from '@ui/atoms'
 import { Menu } from '@ui/molecules'
+import { Clock } from '../molecules'
 
 export const HeaderContent = () => (
   <>
-    <Time>17:00</Time>
+    <Clock />
     <Menu>
       <NavLink as={Link} to="/">
         Main

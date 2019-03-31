@@ -18,7 +18,7 @@ const WeatherParamText = styled.span`
   font-size: 1.2rem;
 `
 
-export const WeatherParam = ({ label, value, icon }) => (
+export const WeatherParam = ({ label, value }) => (
   <WeatherParamWrapper>
     <LabelParam>{label}</LabelParam>
     <WeatherParamText>{value}</WeatherParamText>
@@ -27,6 +27,5 @@ export const WeatherParam = ({ label, value, icon }) => (
 
 WeatherParam.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
-  icon: PropTypes.string
+  value: PropTypes.string
 }

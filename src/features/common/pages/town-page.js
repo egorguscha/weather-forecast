@@ -5,11 +5,12 @@ import { compose } from 'recompose'
 import createReactClass from 'create-react-class'
 import { HourlyForecast } from '../organisms'
 import { CommonTemplate } from '../temlpates'
-import { fetchForecast } from '../actions.js'
-import { getWeather, getForecast } from '../reducer'
-import { Grid } from '@ui/grid'
+import { fetchWeather } from '../actions'
+import { getWeather } from '../reducer'
 import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
 import { WeatherCardHead, WeatherParam } from '@ui/molecules'
+import { Preloader } from '@ui/molecules'
+import { ErrorBoundary } from '../organisms'
 
 const TownPageView = createReactClass({
   getInitialState() {
@@ -25,12 +26,10 @@ const TownPageView = createReactClass({
     } = this.props
 
     if (!Object.keys(forecast).length) {
-      fetchForecast(id, true)
+      fetchWeather(id, true)
     }
   },
-  handleClick() {
-    console.log(1)
-  },
+
   render() {
     const {
       isLoaded,
@@ -44,60 +43,51 @@ const TownPageView = createReactClass({
     if (!isLoaded) {
       return (
         <CommonTemplate>
-          <Grid.Wrapper>
-            <TownHead title="Loading..." />
-          </Grid.Wrapper>
+          <Preloader />
         </CommonTemplate>
       )
     }
-
     return (
       <CommonTemplate>
-        <Grid.Wrapper>
-          <TownHead {...currentlyWeather} />
-          {dailyWeather.map(daily => (
-            <WeatherCard key={daily.time}>
-              <WeatherCardHead
-                {...daily}
-                currentDay={day.toString() === daily.day}
+        <TownHead {...currentlyWeather} />
+        {dailyWeather.map(daily => (
+          <WeatherCard key={daily.time}>
+            <WeatherCardHead
+              {...daily}
+              currentDay={day.toString() === daily.day}
+            />
+            <WeatherParamList>
+              <WeatherParam
+                label={'Pressure'}
+                value={`${daily.pressure} hPa`}
               />
-              <WeatherParamList>
-                <WeatherParam
-                  label={'Pressure'}
-                  value={`${daily.pressure} hPa`}
-                />
-                <WeatherParam
-                  label={'Visibility'}
-                  value={`${daily.visibility} km`}
-                />
-                <WeatherParam
-                  label={'Wind speed'}
-                  value={`${daily.windSpeed} m/s`}
-                />
-              </WeatherParamList>
+              <WeatherParam
+                label={'Visibility'}
+                value={`${daily.visibility} km`}
+              />
+              <WeatherParam
+                label={'Wind speed'}
+                value={`${daily.windSpeed} m/s`}
+              />
+            </WeatherParamList>
 
-              <HourlyForecast
-                hourly={
-                  hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
-                }
-              />
-            </WeatherCard>
-          ))}
-        </Grid.Wrapper>
+            <HourlyForecast
+              hourly={
+                hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
+              }
+            />
+          </WeatherCard>
+        ))}
       </CommonTemplate>
     )
   }
 })
 
-TownPageView.defaultProps = {}
-
-TownPageView.propTypes = {}
-
 const mapStateToProps = state => ({
   forecast: getWeather(state)
 })
 const mapDispatchToProps = dispatch => ({
-  fetchForecast: (id, byId) => dispatch(fetchForecast(id, byId))
+  fetchWeather: (id, byId) => dispatch(fetchWeather(id, byId))
 })
 
 const enhance = compose(

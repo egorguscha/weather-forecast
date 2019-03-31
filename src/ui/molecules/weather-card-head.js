@@ -17,10 +17,9 @@ export const WeatherCardHead = ({
   day,
   temperatureMax,
   temperatureMin,
-  currentDay,
-  onClick
+  currentDay
 }) => (
-  <WeatherCardHeadWrapper onClick={onClick}>
+  <WeatherCardHeadWrapper>
     <CardHeadTitle currentDay={currentDay}>
       {currentDay ? 'Today' : weekday}
     </CardHeadTitle>
@@ -34,5 +33,8 @@ export const WeatherCardHead = ({
 )
 
 WeatherCardHead.propTypes = {
-  onClick: PropTypes.func
+  currentDay: PropTypes.bool.isRequired,
+  weekday: PropTypes.string.isRequired,
+  month: PropTypes.string.isRequired,
+  day: PropTypes.string.isRequired
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const HourlyWrapper = styled.div`
@@ -41,3 +42,11 @@ export const HourlyColumn = ({ children }) => (
 export const HourlyList = ({ children, animationState }) => (
   <HourlyWrapper state={animationState}>{children}</HourlyWrapper>
 )
+
+HourlyColumn.propTypes = {
+  children: PropTypes.node.isRequired
+}
+HourlyList.propTypes = {
+  children: PropTypes.node.isRequired,
+  animationState: PropTypes.string.isRequired
+}

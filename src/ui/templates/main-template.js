@@ -12,3 +12,10 @@ export const MainTemplate = ({ header, footer, children, fullHeight }) => {
     </Grid.Wrapper>
   )
 }
+
+MainTemplate.propTypes = {
+  header: PropTypes.node.isRequired,
+  footer: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  fullHeight: PropTypes.bool
+}

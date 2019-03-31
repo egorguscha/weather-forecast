@@ -37,5 +37,12 @@ export const Search = ({ value, onSubmit, onChange, error }) => (
 )
 
 Search.propTypes = {
-  value: PropTypes.string
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired
+}
+
+Search.defaultProps = {
+  error: ''
 }
