@@ -1,12 +1,12 @@
 import {
-  RECEIVE_CURRENT_WEATHER,
   REQUEST_WEATHER,
-  RECEIVE_FORECAST,
-  RECEIVE_DAILY_WEATHER,
   FILTER_BY_DEFINITION,
   REQUEST_CITIES,
   RECEIVE_CITIES,
-  GET_PAGES
+  SET_PAGES,
+  RECEIVE_WEATHER_CURRENT,
+  RECEIVE_WEATHER_DAILY,
+  RECEIVE_WEATHER_FORECAST
 } from './action-types'
 
 // pagination
@@ -19,7 +19,7 @@ const initialStatePagination = {
 
 export const paginationReducer = (state = initialStatePagination, action) => {
   switch (action.type) {
-    case GET_PAGES:
+    case SET_PAGES:
       return { ...state, ...action.payload }
     default:
       return state
@@ -55,19 +55,19 @@ export const weatherReducer = (state = {}, action) => {
   switch (action.type) {
     case REQUEST_WEATHER:
       return { ...state, isLoaded: action.isLoaded }
-    case RECEIVE_CURRENT_WEATHER:
+    case RECEIVE_WEATHER_CURRENT:
       return {
         ...state,
         currentlyWeather: { ...action.currentlyWeather },
         isLoaded: action.isLoaded
       }
-    case RECEIVE_DAILY_WEATHER:
+    case RECEIVE_WEATHER_DAILY:
       return {
         ...state,
         dailyWeather: [...action.dailyWeather],
         isLoaded: action.isLoaded
       }
-    case RECEIVE_FORECAST:
+    case RECEIVE_WEATHER_FORECAST:
       return {
         ...state,
         hourly: action.hourlyForecast,

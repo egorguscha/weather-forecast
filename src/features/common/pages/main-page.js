@@ -3,15 +3,33 @@ import PropTypes from 'prop-types'
 import { Container } from '@ui/atoms'
 import { CommonTemplate } from '../temlpates'
 import { SearchableBox } from '../organisms'
+import { connect } from 'react-redux'
+import { Preloader } from '@ui/molecules'
 
-export const MainPage = () => (
-  <CommonTemplate fullHeight>
-    <Container>
-      <SearchableBox />
-    </Container>
-  </CommonTemplate>
-)
+const MainPageView = ({ isLoaded }) => {
+  return (
+    <CommonTemplate fullHeight>
+      {!isLoaded ? (
+        <Preloader />
+      ) : (
+        <Container>
+          <SearchableBox />
+        </Container>
+      )}
+    </CommonTemplate>
+  )
+}
 
-MainPage.defaultProps = {}
+MainPageView.defaultProps = {
+  isLoaded: true
+}
 
-MainPage.propTypes = {}
+MainPageView.propTypes = {}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isLoaded: state.weather.isLoaded
+  }
+}
+
+export const MainPage = connect(mapStateToProps)(MainPageView)

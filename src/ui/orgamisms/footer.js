@@ -11,6 +11,7 @@ const FooterWrapper = styled.footer`
   grid-template-rows: minmax(2.5rem, auto);
   padding: 1.2rem;
   justify-content: center;
+  z-index: 999;
 `
 
 export const Footer = ({ children }) => (

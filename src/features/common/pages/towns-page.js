@@ -14,6 +14,7 @@ import {
 import { fetchCities } from '../actions'
 import createReactClass from 'create-react-class'
 import { Pagination } from '../molecules'
+import { Preloader } from '@ui/molecules'
 
 const TownsPageView = createReactClass({
   getInitialState() {
@@ -25,7 +26,14 @@ const TownsPageView = createReactClass({
 
   render() {
     const { pageItemsLimit = [], ...restPagination } = this.props.pagination
-
+    const { isLoaded } = this.props
+    if (!isLoaded) {
+      return (
+        <CommonTemplate>
+          <Preloader />
+        </CommonTemplate>
+      )
+    }
     return (
       <CommonTemplate>
         <CommonContainer>
@@ -56,8 +64,9 @@ TownsPageView.defaultProps = {}
 
 TownsPageView.propTypes = {}
 
-const mapStateToProps = (state, ownProps) => ({
-  pagination: state.pagination
+const mapStateToProps = state => ({
+  pagination: state.pagination,
+  isLoaded: state.filter.isLoaded
 })
 
 export const TownsPage = connect(mapStateToProps)(TownsPageView)

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 
 import { TableHeadCell } from '@ui/atoms'
 import { FilterHandler } from '../molecules'
-import { filters } from '../actions'
-
-const { FILTER_NAME_HIGH, FILTER_TEMPERATURE_HIGH, FILTER_RANK_HIGH } = filters
+import {
+  FILTER_NAME_HIGH,
+  FILTER_TEMPERATURE_HIGH,
+  FILTER_RANK_HIGH
+} from '../action-types'
 
 export const TownsFilter = () => (
   <>

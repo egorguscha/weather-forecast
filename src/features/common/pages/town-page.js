@@ -5,11 +5,12 @@ import { compose } from 'recompose'
 import createReactClass from 'create-react-class'
 import { HourlyForecast } from '../organisms'
 import { CommonTemplate } from '../temlpates'
-import { fetchForecast } from '../actions.js'
-import { getWeather, getForecast } from '../reducer'
-import { Grid } from '@ui/grid'
+import { fetchWeather } from '../actions'
+import { getWeather } from '../reducer'
 import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
 import { WeatherCardHead, WeatherParam } from '@ui/molecules'
+import { Preloader } from '@ui/molecules'
+import { ErrorBoundary } from '../organisms'
 
 const TownPageView = createReactClass({
   getInitialState() {
@@ -25,12 +26,10 @@ const TownPageView = createReactClass({
     } = this.props
 
     if (!Object.keys(forecast).length) {
-      fetchForecast(id, true)
+      fetchWeather(id, true)
     }
   },
-  handleClick() {
-    console.log(1)
-  },
+
   render() {
     const {
       isLoaded,
@@ -44,13 +43,10 @@ const TownPageView = createReactClass({
     if (!isLoaded) {
       return (
         <CommonTemplate>
-          <Grid.Wrapper>
-            <TownHead title="Loading..." />
-          </Grid.Wrapper>
+          <Preloader />
         </CommonTemplate>
       )
     }
-
     return (
       <CommonTemplate>
         <TownHead {...currentlyWeather} />
@@ -91,7 +87,7 @@ const mapStateToProps = state => ({
   forecast: getWeather(state)
 })
 const mapDispatchToProps = dispatch => ({
-  fetchForecast: (id, byId) => dispatch(fetchForecast(id, byId))
+  fetchWeather: (id, byId) => dispatch(fetchWeather(id, byId))
 })
 
 const enhance = compose(

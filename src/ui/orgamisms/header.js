@@ -11,6 +11,7 @@ const HeaderWrapper = styled.header`
   padding: 1.2rem;
   grid-template-areas: 'time menu';
   box-sizing: border-box;
+  z-index: 999;
 `
 
 export const HeaderBox = ({ children }) => (

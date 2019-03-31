@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { FilterButton } from '@ui/molecules'
 import { FilterRadioButton, FilterRadioLabel } from '@ui/atoms'
-import { filterByDefinition } from '../actions'
+import { filterWeatherParams } from '../actions'
 
 const FilterHandlerView = ({ text, onChange, active, filterName }) => {
   return (
@@ -37,7 +37,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onChange: () => dispatch(filterByDefinition(ownProps.filterName))
+    onChange: () => dispatch(filterWeatherParams(ownProps.filterName))
   }
 }
 
