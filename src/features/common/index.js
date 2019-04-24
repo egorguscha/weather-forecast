@@ -5,4 +5,4 @@ export {
   filterReducer,
   townsReducer,
   paginationReducer
-} from './reducer'
+} from './reducers'

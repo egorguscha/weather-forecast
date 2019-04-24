@@ -1,34 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import createReactClass from 'create-react-class'
 import { HourlyForecast } from '../organisms'
 import { CommonTemplate } from '../temlpates'
 import { fetchWeather } from '../actions'
-import { getWeather } from '../reducer'
+import { getWeather } from '../selectors'
 import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
 import { WeatherCardHead, WeatherParam } from '@ui/molecules'
 import { Preloader } from '@ui/molecules'
 import { ErrorBoundary } from '../organisms'
 
-const TownPageView = createReactClass({
-  getInitialState() {
-    return {}
-  },
+class TownPageView extends Component {
   componentDidMount() {
     const {
       forecast,
       match: {
         params: { id }
       },
-      fetchForecast
+      fetchWeather
     } = this.props
 
-    if (!Object.keys(forecast).length) {
+    if (!forecast.isLoaded) {
       fetchWeather(id, true)
     }
-  },
+  }
 
   render() {
     const {
@@ -81,7 +77,7 @@ const TownPageView = createReactClass({
       </CommonTemplate>
     )
   }
-})
+}
 
 const mapStateToProps = state => ({
   forecast: getWeather(state)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { CommonTemplate } from '../temlpates'
@@ -12,17 +12,13 @@ import {
   TableHead
 } from '@ui/atoms'
 import { fetchCities } from '../actions'
-import createReactClass from 'create-react-class'
 import { Pagination } from '../molecules'
 import { Preloader } from '@ui/molecules'
 
-const TownsPageView = createReactClass({
-  getInitialState() {
-    return {}
-  },
+class TownsPageView extends Component {
   componentDidMount() {
     this.props.dispatch(fetchCities())
-  },
+  }
 
   render() {
     const { pageItemsLimit = [], ...restPagination } = this.props.pagination
@@ -58,7 +54,7 @@ const TownsPageView = createReactClass({
       </CommonTemplate>
     )
   }
-})
+}
 
 TownsPageView.defaultProps = {}
 
