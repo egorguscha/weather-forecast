@@ -39,12 +39,6 @@ export const filterWeatherParams = filterType => (dispatch, getState) => {
     pagination: { currentPage }
   } = getState()
 
-  const sorted = sortByWeatherParams(filterType, getState)
-
-  dispatch({
-    type: FILTER_WEATHER_PARAMS,
-    filterType,
-    sorted
-  })
+  sortByWeatherParams(filterType, getState)
   dispatch(computePages(currentPage))
 }
