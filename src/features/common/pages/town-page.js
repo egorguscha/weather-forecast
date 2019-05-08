@@ -29,7 +29,7 @@ class TownPageView extends Component {
   render() {
     const {
       isLoaded,
-      currentlyWeather = {},
+      currentlyWeather: { timezone, temperature, img },
       dailyWeather = [],
       hourly = new Map()
     } = this.props.forecast
@@ -45,7 +45,7 @@ class TownPageView extends Component {
     }
     return (
       <CommonTemplate>
-        <TownHead {...currentlyWeather} />
+        <TownHead timezone={timezone} temperature={temperature} img={img} />
         {dailyWeather.map(
           ({
             time,

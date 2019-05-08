@@ -21,7 +21,13 @@ class TownsPageView extends Component {
   }
 
   render() {
-    const { pageItemsLimit = [], ...restPagination } = this.props.pagination
+    const {
+      pageItemsLimit = [],
+      currentPage,
+      pages,
+      totalPages
+    } = this.props.pagination
+
     const { isLoaded } = this.props
     if (!isLoaded) {
       return (
@@ -40,16 +46,20 @@ class TownsPageView extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {pageItemsLimit.map(item => (
-                <TableRow key={item.id}>
-                  <TableBodyCell>{item.rank}</TableBodyCell>
-                  <TableBodyCell>{item.name}</TableBodyCell>
-                  <TableBodyCell>{item.temperature} &#176;С</TableBodyCell>
+              {pageItemsLimit.map(({ id, rank, name, temperature }) => (
+                <TableRow key={id}>
+                  <TableBodyCell>{rank}</TableBodyCell>
+                  <TableBodyCell>{name}</TableBodyCell>
+                  <TableBodyCell>{temperature} &#176;С</TableBodyCell>
                 </TableRow>
               ))}
             </TableBody>
           </CustomTable>
-          <Pagination {...restPagination} />
+          <Pagination
+            currentPage={currentPage}
+            pages={pages}
+            totalPages={totalPages}
+          />
         </CommonContainer>
       </CommonTemplate>
     )
