@@ -34,7 +34,7 @@ class TownPageView extends Component {
       hourly = new Map()
     } = this.props.forecast
     const date = new Date()
-    const day = date.getDate()
+    const today = date.getDate()
 
     if (!isLoaded) {
       return (
@@ -46,34 +46,48 @@ class TownPageView extends Component {
     return (
       <CommonTemplate>
         <TownHead {...currentlyWeather} />
-        {dailyWeather.map(daily => (
-          <WeatherCard key={daily.time}>
-            <WeatherCardHead
-              {...daily}
-              currentDay={day.toString() === daily.day}
-            />
-            <WeatherParamList>
-              <WeatherParam
-                label={'Pressure'}
-                value={`${daily.pressure} hPa`}
-              />
-              <WeatherParam
-                label={'Visibility'}
-                value={`${daily.visibility} km`}
-              />
-              <WeatherParam
-                label={'Wind speed'}
-                value={`${daily.windSpeed} m/s`}
-              />
-            </WeatherParamList>
+        {dailyWeather.map(
+          ({
+            time,
+            weekday,
+            month,
+            day,
+            temperatureMax,
+            temperatureMin,
+            pressure,
+            visibility,
+            windSpeed
+          }) => {
+            const checkHourly = hourly.has(weekday) ? hourly.get(weekday) : []
+            const checkDay = today.toString() === day
 
-            <HourlyForecast
-              hourly={
-                hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
-              }
-            />
-          </WeatherCard>
-        ))}
+            return (
+              <WeatherCard key={time}>
+                <WeatherCardHead
+                  weekday={weekday}
+                  month={month}
+                  day={day}
+                  temperatureMax={temperatureMax}
+                  temperatureMin={temperatureMin}
+                  currentDay={checkDay}
+                />
+                <WeatherParamList>
+                  <WeatherParam label={'Pressure'} value={`${pressure} hPa`} />
+                  <WeatherParam
+                    label={'Visibility'}
+                    value={`${visibility} km`}
+                  />
+                  <WeatherParam
+                    label={'Wind speed'}
+                    value={`${windSpeed} m/s`}
+                  />
+                </WeatherParamList>
+
+                <HourlyForecast hourly={checkHourly} />
+              </WeatherCard>
+            )
+          }
+        )}
       </CommonTemplate>
     )
   }

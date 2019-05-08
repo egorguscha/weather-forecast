@@ -1,12 +1,7 @@
-import {
-  FILTER_BY_DEFINITION,
-  REQUEST_CITIES,
-  RECEIVE_CITIES
-} from '../action-types'
+import { REQUEST_CITIES, RECEIVE_CITIES } from '../action-types'
 
 const initialState = {
-  cities: [],
-  filterType: null
+  cities: []
 }
 export const filterReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,12 +9,7 @@ export const filterReducer = (state = initialState, action) => {
       return { ...state, isLoaded: action.isLoaded }
     case RECEIVE_CITIES:
       return { ...state, isLoaded: action.isLoaded, cities: action.cities }
-    case FILTER_BY_DEFINITION:
-      return {
-        ...state,
-        filterType: action.filterType,
-        cities: [...action.sorted]
-      }
+
     default:
       return state
   }
