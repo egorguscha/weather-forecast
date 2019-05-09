@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-export const getWeather = createSelector(
+export const weatherSelector = createSelector(
   state => state.weather,
   getWeatherSelector => getWeatherSelector
 )
