@@ -1,11 +1,5 @@
 import { SET_PAGES } from '../action-types'
 
-const setPages = computedPages => {
-  return {
-    type: SET_PAGES,
-    payload: { ...computedPages }
-  }
-}
 export const computePages = specifiedPage => (dispatch, getState) => {
   const {
     filter: { cities },
@@ -39,13 +33,14 @@ export const computePages = specifiedPage => (dispatch, getState) => {
     item => startPage + item
   )
 
-  dispatch(
-    setPages({
+  dispatch({
+    type: SET_PAGES,
+    payload: {
       pages,
       pageItemsLimit,
       currentPage: pageNumber,
       pageSize,
       totalPages
-    })
-  )
+    }
+  })
 }
