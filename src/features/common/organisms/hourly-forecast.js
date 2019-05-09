@@ -1,20 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { HourlySubItem, ButtonHourly, WeatherIconDaily } from '@ui/atoms'
 import { HourlyList, HourlyColumn } from '@ui/molecules'
 import { HourlyForecastWrapper } from '@ui/atoms'
-import createReactClass from 'create-react-class'
+
 import { Transition } from 'react-transition-group'
 
-export const HourlyForecast = createReactClass({
-  getInitialState() {
-    return {
-      toggle: false
-    }
-  },
-  handleClick() {
+export class HourlyForecast extends Component {
+  state = { toggle: false }
+
+  handleClick = () => {
     this.setState({ toggle: !this.state.toggle })
-  },
+  }
   render() {
     const { hourly } = this.props
     const { toggle } = this.state
@@ -55,7 +52,7 @@ export const HourlyForecast = createReactClass({
       </HourlyForecastWrapper>
     )
   }
-})
+}
 
 HourlyForecast.propTypes = {
   hourly: PropTypes.arrayOf(

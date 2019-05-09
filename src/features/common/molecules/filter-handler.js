@@ -4,8 +4,10 @@ import { connect } from 'react-redux'
 import { FilterButton } from '@ui/molecules'
 import { FilterRadioButton, FilterRadioLabel } from '@ui/atoms'
 import { filterWeatherParams } from '../actions'
+import { filterSelector } from '../selectors'
 
-const FilterHandlerView = ({ text, onChange, active, filterName }) => {
+const FilterHandlerView = ({ text, onChange, filterType, filterName }) => {
+  const active = filterType === filterName
   return (
     <FilterButton>
       <FilterRadioLabel active={active} htmlFor={text} filterName={filterName}>
@@ -21,7 +23,9 @@ const FilterHandlerView = ({ text, onChange, active, filterName }) => {
   )
 }
 
-FilterHandlerView.defaultProps = {}
+FilterHandlerView.defaultProps = {
+  active: false
+}
 FilterHandlerView.propTypes = {
   text: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -29,17 +33,13 @@ FilterHandlerView.propTypes = {
   filterName: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    active: state.filter.filterType === ownProps.filterName
-  }
-}
+const mapStateToProps = state => ({
+  filterType: filterSelector(state)
+})
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onChange: () => dispatch(filterWeatherParams(ownProps.filterName))
-  }
-}
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onChange: () => dispatch(filterWeatherParams(ownProps.filterName))
+})
 
 export const FilterHandler = connect(
   mapStateToProps,

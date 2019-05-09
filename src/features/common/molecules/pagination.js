@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { PagButton, PaginationWrapper } from '@ui/atoms'
 import { computePages } from '../actions'
+import { paginationSelector } from '../selectors'
 
 export const PaginationView = ({
   dispatch,
-  pages,
-  currentPage,
-  totalPages
+  pagination: { pages = [], currentPage, totalPages }
 }) => {
   return (
     <PaginationWrapper>
@@ -49,15 +48,17 @@ export const PaginationView = ({
   )
 }
 
-PaginationView.defaultProps = {
-  pages: []
-}
-
 PaginationView.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  pages: PropTypes.arrayOf(PropTypes.number).isRequired,
-  currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired
+  pagination: PropTypes.shape({
+    pages: PropTypes.arrayOf(PropTypes.number),
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired
+  })
 }
 
-export const Pagination = connect()(PaginationView)
+const mapStateToProps = (state, ownProps) => ({
+  pagination: paginationSelector(state)
+})
+
+export const Pagination = connect(mapStateToProps)(PaginationView)

@@ -1,17 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import createReactClass from 'create-react-class'
 
-export const ErrorBoundary = createReactClass({
-  getInitialState() {
-    return {}
-  },
+export class ErrorBoundary extends Component {
   componentDidCatch(error, info) {
     console.log(1)
     console.log(error)
     console.log(info)
-  },
+  }
   render() {
     return this.props.children
   }
-})
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { CommonTemplate } from '../temlpates'
@@ -12,21 +12,25 @@ import {
   TableHead
 } from '@ui/atoms'
 import { fetchCities } from '../actions'
-import createReactClass from 'create-react-class'
 import { Pagination } from '../molecules'
 import { Preloader } from '@ui/molecules'
+import { paginationSelector } from '../selectors'
 
-const TownsPageView = createReactClass({
-  getInitialState() {
-    return {}
-  },
+class TownsPageView extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCities())
-  },
+    const { dispatch, isLoaded } = this.props
+
+    if (!isLoaded) {
+      this.props.dispatch(fetchCities())
+    }
+  }
 
   render() {
-    const { pageItemsLimit = [], ...restPagination } = this.props.pagination
-    const { isLoaded } = this.props
+    const {
+      isLoaded,
+      pageLimit: { pageItemsLimit = [] }
+    } = this.props
+
     if (!isLoaded) {
       return (
         <CommonTemplate>
@@ -44,28 +48,28 @@ const TownsPageView = createReactClass({
               </TableRow>
             </TableHead>
             <TableBody>
-              {pageItemsLimit.map(item => (
-                <TableRow key={item.id}>
-                  <TableBodyCell>{item.rank}</TableBodyCell>
-                  <TableBodyCell>{item.name}</TableBodyCell>
-                  <TableBodyCell>{item.temperature} &#176;С</TableBodyCell>
+              {pageItemsLimit.map(({ id, rank, name, temperature }) => (
+                <TableRow key={id}>
+                  <TableBodyCell>{rank}</TableBodyCell>
+                  <TableBodyCell>{name}</TableBodyCell>
+                  <TableBodyCell>{temperature} &#176;С</TableBodyCell>
                 </TableRow>
               ))}
             </TableBody>
           </CustomTable>
-          <Pagination {...restPagination} />
+          <Pagination />
         </CommonContainer>
       </CommonTemplate>
     )
   }
-})
+}
 
 TownsPageView.defaultProps = {}
 
 TownsPageView.propTypes = {}
 
 const mapStateToProps = state => ({
-  pagination: state.pagination,
+  pageLimit: paginationSelector(state),
   isLoaded: state.filter.isLoaded
 })
 

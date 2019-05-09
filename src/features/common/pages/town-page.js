@@ -1,44 +1,40 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import createReactClass from 'create-react-class'
 import { HourlyForecast } from '../organisms'
 import { CommonTemplate } from '../temlpates'
 import { fetchWeather } from '../actions'
-import { getWeather } from '../reducer'
+import { weatherSelector } from '../selectors'
 import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
 import { WeatherCardHead, WeatherParam } from '@ui/molecules'
 import { Preloader } from '@ui/molecules'
 import { ErrorBoundary } from '../organisms'
 
-const TownPageView = createReactClass({
-  getInitialState() {
-    return {}
-  },
+class TownPageView extends Component {
   componentDidMount() {
     const {
       forecast,
       match: {
         params: { id }
       },
-      fetchForecast
+      fetchWeather
     } = this.props
 
-    if (!Object.keys(forecast).length) {
+    if (!forecast.isLoaded) {
       fetchWeather(id, true)
     }
-  },
+  }
 
   render() {
     const {
       isLoaded,
-      currentlyWeather = {},
+      currentlyWeather: { timezone, temperature, img },
       dailyWeather = [],
       hourly = new Map()
     } = this.props.forecast
     const date = new Date()
-    const day = date.getDate()
+    const today = date.getDate()
 
     if (!isLoaded) {
       return (
@@ -49,42 +45,56 @@ const TownPageView = createReactClass({
     }
     return (
       <CommonTemplate>
-        <TownHead {...currentlyWeather} />
-        {dailyWeather.map(daily => (
-          <WeatherCard key={daily.time}>
-            <WeatherCardHead
-              {...daily}
-              currentDay={day.toString() === daily.day}
-            />
-            <WeatherParamList>
-              <WeatherParam
-                label={'Pressure'}
-                value={`${daily.pressure} hPa`}
-              />
-              <WeatherParam
-                label={'Visibility'}
-                value={`${daily.visibility} km`}
-              />
-              <WeatherParam
-                label={'Wind speed'}
-                value={`${daily.windSpeed} m/s`}
-              />
-            </WeatherParamList>
+        <TownHead timezone={timezone} temperature={temperature} img={img} />
+        {dailyWeather.map(
+          ({
+            time,
+            weekday,
+            month,
+            day,
+            temperatureMax,
+            temperatureMin,
+            pressure,
+            visibility,
+            windSpeed
+          }) => {
+            const checkHourly = hourly.has(weekday) ? hourly.get(weekday) : []
+            const checkDay = today.toString() === day
 
-            <HourlyForecast
-              hourly={
-                hourly.has(daily.weekday) ? hourly.get(daily.weekday) : []
-              }
-            />
-          </WeatherCard>
-        ))}
+            return (
+              <WeatherCard key={time}>
+                <WeatherCardHead
+                  weekday={weekday}
+                  month={month}
+                  day={day}
+                  temperatureMax={temperatureMax}
+                  temperatureMin={temperatureMin}
+                  currentDay={checkDay}
+                />
+                <WeatherParamList>
+                  <WeatherParam label={'Pressure'} value={`${pressure} hPa`} />
+                  <WeatherParam
+                    label={'Visibility'}
+                    value={`${visibility} km`}
+                  />
+                  <WeatherParam
+                    label={'Wind speed'}
+                    value={`${windSpeed} m/s`}
+                  />
+                </WeatherParamList>
+
+                <HourlyForecast hourly={checkHourly} />
+              </WeatherCard>
+            )
+          }
+        )}
       </CommonTemplate>
     )
   }
-})
+}
 
 const mapStateToProps = state => ({
-  forecast: getWeather(state)
+  forecast: weatherSelector(state)
 })
 const mapDispatchToProps = dispatch => ({
   fetchWeather: (id, byId) => dispatch(fetchWeather(id, byId))

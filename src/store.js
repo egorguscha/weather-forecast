@@ -7,15 +7,13 @@ import thunk from 'redux-thunk'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 export function configureStore({ history, initalState = {} } = {}) {
-  const middlewares = [
-    thunk.withExtraArgument('foo'),
-    routerMiddleware(history),
-    logger
-  ]
+  const middlewares = [thunk, routerMiddleware(history), logger]
+
   const store = createStore(
     createReducer(history),
     initalState,
     composeEnhancers(applyMiddleware(...middlewares))
   )
+
   return store
 }

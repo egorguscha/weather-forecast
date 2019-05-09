@@ -1,29 +1,24 @@
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Search } from '@ui/molecules'
 import { fetchCityCoords } from '../actions'
 
-const SearchableBoxView = createReactClass({
-  getInitialState() {
-    return {
-      value: ''
-    }
-  },
-  handleSubmit(event) {
+export class SearchableBoxView extends Component {
+  state = { value: '' }
+  handleSubmit = event => {
     const { dispatch } = this.props
     const { value } = this.state
 
     event.preventDefault()
 
     dispatch(fetchCityCoords(value))
-  },
-  handleChange(event) {
+  }
+  handleChange = event => {
     const value = event.target.value
 
     this.setState({ value })
-  },
+  }
   render() {
     const { value, error } = this.state
 
@@ -35,7 +30,7 @@ const SearchableBoxView = createReactClass({
       />
     )
   }
-})
+}
 
 SearchableBoxView.defaultProps = {}
 SearchableBoxView.propTypes = {

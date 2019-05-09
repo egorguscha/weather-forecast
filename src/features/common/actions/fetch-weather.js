@@ -14,7 +14,7 @@ export const fetchWeather = (coords, allowRedirect) => async dispatch => {
     const { latitude, longitude, ...otherProps } = await request(
       `${proxy}https://api.darksky.net/forecast/${WEATHER_API_KEY}/${coords}?units=si&extend=hourly`
     )
-
+    // TODO: remove boolean arg
     dispatch(receiveWeatherCurrent(true, otherProps))
     dispatch(receiveWeatherDaily(true, otherProps))
     dispatch(receiveWeatherForecast(true, otherProps))
@@ -24,7 +24,5 @@ export const fetchWeather = (coords, allowRedirect) => async dispatch => {
     }
   } catch (error) {
     const { name, message } = error
-
-    dispatch(fetchWeatherFailure(name, message))
   }
 }
