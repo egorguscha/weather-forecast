@@ -14,21 +14,23 @@ import {
 import { fetchCities } from '../actions'
 import { Pagination } from '../molecules'
 import { Preloader } from '@ui/molecules'
+import { paginationSelector } from '../selectors'
 
 class TownsPageView extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCities())
+    const { dispatch, isLoaded } = this.props
+
+    if (!isLoaded) {
+      this.props.dispatch(fetchCities())
+    }
   }
 
   render() {
     const {
-      pageItemsLimit = [],
-      currentPage,
-      pages,
-      totalPages
-    } = this.props.pagination
+      isLoaded,
+      pageLimit: { pageItemsLimit = [] }
+    } = this.props
 
-    const { isLoaded } = this.props
     if (!isLoaded) {
       return (
         <CommonTemplate>
@@ -55,11 +57,7 @@ class TownsPageView extends Component {
               ))}
             </TableBody>
           </CustomTable>
-          <Pagination
-            currentPage={currentPage}
-            pages={pages}
-            totalPages={totalPages}
-          />
+          <Pagination />
         </CommonContainer>
       </CommonTemplate>
     )
@@ -71,7 +69,7 @@ TownsPageView.defaultProps = {}
 TownsPageView.propTypes = {}
 
 const mapStateToProps = state => ({
-  pagination: state.pagination,
+  pageLimit: paginationSelector(state),
   isLoaded: state.filter.isLoaded
 })
 

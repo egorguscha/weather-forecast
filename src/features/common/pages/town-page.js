@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { HourlyForecast } from '../organisms'
 import { CommonTemplate } from '../temlpates'
 import { fetchWeather } from '../actions'
-import { getWeather } from '../selectors'
+import { weatherSelector } from '../selectors'
 import { TownHead, WeatherCard, WeatherParamList } from '@ui/orgamisms'
 import { WeatherCardHead, WeatherParam } from '@ui/molecules'
 import { Preloader } from '@ui/molecules'
@@ -94,7 +94,7 @@ class TownPageView extends Component {
 }
 
 const mapStateToProps = state => ({
-  forecast: getWeather(state)
+  forecast: weatherSelector(state)
 })
 const mapDispatchToProps = dispatch => ({
   fetchWeather: (id, byId) => dispatch(fetchWeather(id, byId))
